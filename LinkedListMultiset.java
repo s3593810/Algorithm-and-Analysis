@@ -15,14 +15,15 @@ public class LinkedListMultiset<T> extends Multiset<T>
 	public void add(T item) {
 		Node<T> newNode = new Node<T>(item);
 		
+		/* list is null set new node head*/
 		if(head == null) {
 			head = newNode;
 		} else {
-			Node<T> currentNode = head;
+			Node<T> currentNode = head; // set head as current node
 			Node<T> parentNode = null;
 			
 			while(currentNode != null) {
-				if(currentNode.equals(newNode.getValue())) {
+				if(currentNode.getValue().equals(item)) {
 					currentNode.addInstance();
 					return;
 				}
