@@ -6,7 +6,7 @@
  * 
  * @param <T>
  */
-public class Node<T> {
+public class Node<T> implements Comparable<T>{
 	private T value;
 	private Node<T> next;
 	private int appearence;
@@ -58,8 +58,10 @@ public class Node<T> {
 		this.next = nextNode;
 	}
 
-//	public int compareValue(T t) {
-//		return value.compareTo(t);
-//	}
+	@Override
+	public int compareTo(T otherValue) {
+		// TODO Auto-generated method stub
+		return ((Comparable<T>) value).compareTo(otherValue);
+	}
 } // end of Node class
 
