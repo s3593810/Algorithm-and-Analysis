@@ -1,7 +1,6 @@
 import java.io.PrintStream;
-import java.util.*;
 
-public class SortedLinkedListMultiset<T> extends Multiset<T>
+public class SortedLinkedListMultiset<T extends Comparable<T>> extends Multiset<T>
 {	
 	private Node<T> head;
 	private int length;
@@ -24,8 +23,8 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 		
 		Node<T> currentNode = head; // set current node
 		Node<T> parentNode = head;
-		
-		if (newNode.compareTo(currentNode.getValue()) < 0) {
+		int compareValue = newNode.getValue().compareTo(currentNode.getValue());
+		if (compareValue < 0) {
 			head = newNode;
 			head.setNext(parentNode);
 			length++;
@@ -35,13 +34,13 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 
 		while(currentNode != null) {
 			/* if already exists*/
-			if(currentNode.getValue().equals(item)) {
+			if(compareValue == 0) {
 				currentNode.addInstance();
 				return;
 			}
 			
-			/*compare with listed items*/
-			if(newNode.compareTo(currentNode.getValue()) < 0) {
+			/*compare with listed item*/
+			if(compareValue < 0) {
 				newNode.setNext(currentNode);
 		        parentNode.setNext(newNode);
 		        length++;
@@ -59,9 +58,12 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	public int search(T item) {
 		Node<T> currentNode = head;
-
+		int compareValue;
+		
         while (currentNode != null) {
-            if (currentNode.getValue().equals(item)) {
+        	compareValue = currentNode.getValue().compareTo(item);
+        	
+            if (compareValue == 0) {
                 return currentNode.getInstance();
             }
             currentNode = currentNode.getNext();
@@ -74,9 +76,12 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	public void removeOne(T item) {
 		Node<T> currentNode = head;
         Node<T> lastNode = null;
-
+        int compareValue;
+        
         while (currentNode != null) {
-            if (currentNode.getValue().equals(item)) {
+        	compareValue = currentNode.getValue().compareTo(item);
+        	
+            if (compareValue == 0) {
             	currentNode.removeInstance();
                 if (currentNode.getInstance() == 0) {
                     
@@ -99,9 +104,12 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	public void removeAll(T item) {
 		Node<T> currentNode = head;
         Node<T> lastNode = null;
-
+        int compareValue;
+        
         while (currentNode != null) {
-            if (currentNode.getValue().equals(item)) {
+        	compareValue = currentNode.getValue().compareTo(item);
+        	
+            if (compareValue == 0) {
                 if (currentNode == head)
                     head = currentNode.getNext();
                 else
@@ -118,7 +126,8 @@ public class SortedLinkedListMultiset<T> extends Multiset<T>
 	
 	public void print(PrintStream out) {
 		Node<T> currentNode = head;
-
+		out.println("Value | Instance");
+		
         while (currentNode != null) {
             out.printf("%s | %d\n", currentNode.getValue(), currentNode.getInstance());
             currentNode = currentNode.getNext();
